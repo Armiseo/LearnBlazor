@@ -1,0 +1,17 @@
+﻿@page "/learn/BindProp"
+
+<h3>Data Binding</h3>
+
+<p>Name: @Product.Name </p>
+<p>IsActive = @(Product.IsActive? "Active" : "Inactive") <input type="checkbox" @bind="@Product.IsActive" /></p>
+<p>Price = @Product.Price</p>
+<p>Input Price = <input type="number" @bind="@Product.Price" @bind:event="oninput"/></p>
+
+@code {
+    Models.Product Product = new()
+        {
+            Id = 1,
+            Name = "Product 1",
+            IsActive = true
+        };
+}
