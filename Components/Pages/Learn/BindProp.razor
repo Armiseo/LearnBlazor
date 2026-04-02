@@ -1,0 +1,95 @@
+﻿@page "/learn/BindProp"
+@using Microsoft.AspNetCore.Components.Authorization
+
+
+<div class="row">
+    <div class="col p-4">
+        <h2 class="text-success">Product Table</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Is Active</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var product in products)
+                {
+                    <tr>
+                        <td> <input type="text" @bind="@product.Name" @bind:event="oninput" /></td>
+                        <td> <input type="number" @bind="@product.Price" @bind:event="oninput" /></td>
+                        <td><input type="checkbox" @bind="@product.IsActive" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <h2>Product Summary</h2>
+    <div class="col-12 border-p3">
+        @foreach (var product in products)
+        {
+            <p>Name: @product.Name, Price = @product.Price, IsActive = @(product.IsActive ? "Active" : "Inactive") </p>
+        }
+    </div>
+</div>
+
+
+
+
+@code {
+    private string selectedProperties = "";
+    private List<Product> products = new List<Product>();
+
+    protected override void OnInitialized()
+    {
+        products.Add(new()
+            {
+                Id = 1,
+                Name = "Product 1",
+                IsActive = true,
+                Price = 0,
+                ProductProperties = new List<Product_Prop>()
+            {
+                new Product_Prop{ Id = 1, Key = "Color", Value = "Red"},
+                new Product_Prop{ Id = 2, Key = "Size", Value = "200gr"},
+                new Product_Prop{ Id = 3, Key = "Flavor", Value = "Rose"},
+            }
+            });
+
+        products.Add(new()
+        {
+            Id = 2,
+            Name = "Product 2",
+            IsActive = false,
+            Price = 0,
+            ProductProperties = new List<Product_Prop>()
+                {
+                    new Product_Prop { Id = 1, Key = "Color", Value = "Yellow" },
+                    new Product_Prop { Id = 2, Key = "Size", Value = "1kg" },
+                    new Product_Prop { Id = 3, Key = "Flavor", Value = "Lavander" },
+                    new Product_Prop { Id = 4, Key = "Availability", Value = "Soon" },
+                }
+        }
+        );
+
+        products.Add(new()
+            {
+                Id = 3,
+                Name = "Product 3",
+                IsActive = true,
+                Price = 0,
+                ProductProperties = new List<Product_Prop>()
+            {
+                new Product_Prop{ Id = 1, Key = "Color", Value = "blue"},
+                new Product_Prop{ Id = 2, Key = "Size", Value = "50gr"},
+                new Product_Prop{ Id = 3, Key = "Flavor", Value = "Umami"},
+            }
+        });
+    }      
+}

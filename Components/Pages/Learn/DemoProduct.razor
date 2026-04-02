@@ -1,0 +1,85 @@
+﻿@page "/learn/demoproduct"
+<h2 class="text-primary">DemoProduct</h2>
+<p>Favortie Count : @FavoriteCount</p>
+<div class="row">
+    @foreach (var product in products)
+    {
+        <_IndividualProductComponent CurrentProcuct="product" OnFavoriteUpdated="FavoriteCountChange"></_IndividualProductComponent>
+    }
+</div>
+
+
+@code {
+    private List<Product> products = new List<Product>();
+    public int FavoriteCount { get; set; } = 0;
+
+
+    protected override void OnInitialized()
+    {
+        products.Add(new()
+        {
+            Id = 1,
+            Name = "Product 1",
+            IsActive = true,
+            Price = 0,
+            ProductProperties = new List<Product_Prop>()
+            {
+                new Product_Prop{ Id = 1, Key = "Color", Value = "Red"},
+                new Product_Prop{ Id = 2, Key = "Size", Value = "200gr"},
+                new Product_Prop{ Id = 3, Key = "Flavor", Value = "Rose"},
+            }
+        });
+
+        products.Add(new()
+        {
+            Id = 2,
+            Name = "Product 2",
+            IsActive = false,
+            Price = 0,
+            ProductProperties = new List<Product_Prop>()
+                {
+                    new Product_Prop { Id = 1, Key = "Color", Value = "Yellow" },
+                    new Product_Prop { Id = 2, Key = "Size", Value = "1kg" },
+                    new Product_Prop { Id = 3, Key = "Flavor", Value = "Lavander" },
+                    new Product_Prop { Id = 4, Key = "Availability", Value = "Soon" },
+                }
+        }
+        );
+
+        products.Add(new()
+        {
+            Id = 3,
+            Name = "Product 3",
+            IsActive = true,
+            Price = 0,
+            ProductProperties = new List<Product_Prop>()
+            {
+                new Product_Prop{ Id = 1, Key = "Color", Value = "blue"},
+                new Product_Prop{ Id = 2, Key = "Size", Value = "50gr"},
+                new Product_Prop{ Id = 3, Key = "Flavor", Value = "Umami"},
+            }
+        });
+    }
+
+    private void deleteProduct(int productId)
+    {
+        var productToRemove = products.FirstOrDefault(x => x.Id == productId);
+
+        if (productToRemove != null)
+        {
+            products.Remove(productToRemove);
+        }
+    }
+
+    protected void FavoriteCountChange(bool isSelected)
+    {
+        if (isSelected)
+        {
+            FavoriteCount++;
+        }
+        else
+        {
+            FavoriteCount--;    
+        }
+    }
+}
