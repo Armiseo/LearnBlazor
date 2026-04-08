@@ -1,8 +1,10 @@
 ﻿@page "/learnRouting"
-@page "/learnRouting/{Param1:int}"
-@page "/learnRouting/{Param1:int}/{Param2}"
+@page "/learnRouting/{Param1}"
+@page "/learnRouting/{Param1}/{Param2}"
 @page "/learnRouting/catch-all/{*PageParameters}"
 @page "/learnBlazor/learnRouting"
+
+@inject NavigationManager _navigationManager;
 
 <h3>LearnRoutingComponent</h3>
 
@@ -10,13 +12,25 @@
 <p>Param 2 : @Param2</p>
 <p>Page Parameters : @PageParameters</p>
 
+<a href="/learnRouting?Param1=Learn&Param2=Blazor" class="btn btn-primary">Navigate to query parameter</a>
+<button class="btn btn-success" @onclick="LoadParameters">Load Parameter</button>
 @code {
     [Parameter]
-    public int Param1 { get; set; }
+    public string Param1 { get; set; }
 
     [Parameter]
     public string Param2 { get; set; } = "";
 
     [Parameter]
     public string PageParameters { get; set; } = "";
+
+    private void LoadParameters()
+    {
+        var uri = new Uri(_navigationManager.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+
+        Param1 = query["Param1"];
+        Param2 = query["Param2"];
+    }
+
 }
